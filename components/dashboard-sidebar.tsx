@@ -17,15 +17,6 @@ import {
   X,
 } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from "@/components/ui/sidebar";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import { User as MockUser } from "@/lib/mock-store";
@@ -66,22 +57,19 @@ export function DashboardSidebar({
     "https://wa.me/526873675477?text=Hola,%20solicito%20asistencia%20profesional%20con%20mi%20plataforma%20ServiLink%20Pro.";
 
   return (
-    <Sidebar className="w-full md:w-72 h-auto md:h-screen border-b md:border-b-0 md:border-r border-sidebar-border bg-sidebar text-sidebar-foreground shrink-0">
-      
-      {/* BOTÓN MENÚ MÓVIL */}
+    <aside className="w-full md:w-72 bg-slate-950 text-white border-b md:border-b-0 md:border-r border-slate-800 shrink-0 md:min-h-screen">
       <button
-        onClick={() => setOpenMobileMenu(!openMobileMenu)}
-        className="md:hidden w-full flex items-center justify-between p-4 border-b border-sidebar-border bg-sidebar text-sidebar-foreground"
+        type="button"
+        onClick={() => setOpenMobileMenu((prev) => !prev)}
+        className="md:hidden w-full flex items-center justify-between p-4 bg-slate-950 text-white border-b border-slate-800"
       >
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-accent rounded-xl">
+          <div className="p-2 bg-blue-600 rounded-xl">
             <ShieldCheck className="w-6 h-6 text-white" />
           </div>
           <div className="text-left">
-            <p className="font-headline font-black text-lg leading-tight">ServiLink</p>
-            <p className="text-[10px] uppercase tracking-wider text-sidebar-foreground/60">
-              {user.role}
-            </p>
+            <p className="font-black text-lg leading-tight">ServiLink</p>
+            <p className="text-[10px] uppercase tracking-wider text-white/50">{user.role}</p>
           </div>
         </div>
 
@@ -90,72 +78,56 @@ export function DashboardSidebar({
         </div>
       </button>
 
-      {/* HEADER ESCRITORIO */}
-      <SidebarHeader className="hidden md:flex p-4 flex-row items-center gap-2 border-b border-sidebar-border">
-        <div className="p-2 bg-accent rounded-lg">
+      <div className="hidden md:flex p-4 items-center gap-2 border-b border-slate-800">
+        <div className="p-2 bg-blue-600 rounded-lg">
           <ShieldCheck className="w-6 h-6 text-white" />
         </div>
-
         <div className="flex flex-col min-w-0">
-          <span className="font-headline font-bold text-lg leading-tight truncate">
-            ServiLink
-          </span>
-          <span className="text-[10px] uppercase tracking-wider text-accent-foreground/70">
-            {user.role}
-          </span>
+          <span className="font-bold text-lg leading-tight truncate">ServiLink</span>
+          <span className="text-[10px] uppercase tracking-wider text-white/50">{user.role}</span>
         </div>
-      </SidebarHeader>
+      </div>
 
-      {/* CONTENIDO MENÚ */}
       <div className={cn(openMobileMenu ? "block" : "hidden", "md:block")}>
-        <SidebarContent className="py-3 md:py-4">
-          <SidebarMenu className="flex flex-col gap-2 px-3 md:px-2">
-            {navItems
-              .filter((item) => item.roles.includes(user.role))
-              .map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton
-                    isActive={pathname === item.href}
-                    onClick={() => goTo(item.href)}
-                    className={cn(
-                      "flex items-center gap-3 px-4 py-3 rounded-xl transition-all w-full",
-                      pathname === item.href
-                        ? "bg-accent text-white hover:bg-accent/90 shadow-md"
-                        : "hover:bg-sidebar-accent text-sidebar-foreground/80 hover:text-white"
-                    )}
-                  >
-                    <item.icon className="w-5 h-5 shrink-0" />
-                    <span className="font-medium text-sm">{item.title}</span>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-
-            <SidebarMenuItem className="md:mt-4">
-              <a
-                href={WHATSAPP_SUPPORT_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-3 px-4 py-3 rounded-xl bg-emerald-600/10 text-emerald-400 hover:bg-emerald-600 hover:text-white transition-all border border-emerald-600/20 group"
+        <nav className="py-4 px-3 flex flex-col gap-2">
+          {navItems
+            .filter((item) => item.roles.includes(user.role))
+            .map((item) => (
+              <button
+                key={item.title}
+                type="button"
+                onClick={() => goTo(item.href)}
+                className={cn(
+                  "w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all",
+                  pathname === item.href
+                    ? "bg-blue-600 text-white shadow-md"
+                    : "text-white/75 hover:bg-white/10 hover:text-white"
+                )}
               >
-                <MessageSquare className="w-5 h-5 group-hover:scale-110 transition-transform shrink-0" />
-                <span className="font-bold text-sm">Soporte WhatsApp</span>
-              </a>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarContent>
+                <item.icon className="w-5 h-5 shrink-0" />
+                <span className="font-medium text-sm">{item.title}</span>
+              </button>
+            ))}
 
-        <SidebarFooter className="p-4 border-t border-sidebar-border">
+          <a
+            href={WHATSAPP_SUPPORT_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-2 flex items-center gap-3 px-4 py-3 rounded-xl bg-emerald-600/10 text-emerald-400 hover:bg-emerald-600 hover:text-white transition-all border border-emerald-600/20"
+          >
+            <MessageSquare className="w-5 h-5 shrink-0" />
+            <span className="font-bold text-sm">Soporte WhatsApp</span>
+          </a>
+        </nav>
+
+        <div className="p-4 border-t border-slate-800">
           <div className="flex items-center gap-3 mb-4 px-2">
             <div className="relative">
-              <Avatar className="w-10 h-10 border border-sidebar-border shadow-sm overflow-hidden bg-slate-800">
+              <Avatar className="w-10 h-10 border border-slate-700 shadow-sm overflow-hidden bg-slate-800">
                 {user.profileImageUrl ? (
-                  <img
-                    src={user.profileImageUrl}
-                    alt=""
-                    className="w-full h-full object-cover"
-                  />
+                  <img src={user.profileImageUrl} alt="" className="w-full h-full object-cover" />
                 ) : (
-                  <AvatarFallback className="bg-accent/20 text-accent font-black">
+                  <AvatarFallback className="bg-blue-600/20 text-blue-400 font-black">
                     {user.name.charAt(0)}
                   </AvatarFallback>
                 )}
@@ -170,7 +142,7 @@ export function DashboardSidebar({
 
             <div className="flex flex-col min-w-0">
               <span className="font-semibold text-sm truncate">{user.name}</span>
-              <span className="text-[10px] text-sidebar-foreground/60 truncate font-black uppercase tracking-tighter">
+              <span className="text-[10px] text-white/50 truncate font-black uppercase tracking-tighter">
                 {user.verificationStatus === "verified"
                   ? "Verificado ⭐"
                   : "Estatus: " + (user.verificationStatus || "Normal")}
@@ -178,15 +150,16 @@ export function DashboardSidebar({
             </div>
           </div>
 
-          <SidebarMenuButton
+          <button
+            type="button"
             onClick={handleLogout}
-            className="flex items-center gap-3 px-4 py-3 rounded-lg text-red-400 hover:bg-red-500/10 hover:text-red-400 w-full"
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-red-400 hover:bg-red-500/10"
           >
             <LogOut className="w-5 h-5" />
             <span className="font-medium">Cerrar Sesión</span>
-          </SidebarMenuButton>
-        </SidebarFooter>
+          </button>
+        </div>
       </div>
-    </Sidebar>
+    </aside>
   );
 }

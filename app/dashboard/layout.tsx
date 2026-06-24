@@ -2,7 +2,6 @@
 
 import { useEffect, useState, useCallback, createContext, useContext } from "react";
 import { useRouter } from "next/navigation";
-import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { DashboardSidebar } from "@/components/dashboard-sidebar";
 import { useUser, useFirestore, useAuth } from "@/firebase";
 import { doc, getDoc } from "firebase/firestore";
@@ -39,9 +38,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           const adminRef = doc(db, "adminProfiles", uid);
           const adminDoc = await getDoc(adminRef).catch(() => null);
 
-          if (adminDoc?.exists()) {
-            return { ...adminDoc.data(), role: "admin" };
-          }
+          if (adminDoc?.exists()) return { ...adminDoc.data(), role: "admin" };
 
           return {
             id: uid,
@@ -52,16 +49,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           };
         }
 
-        const adminRef = doc(db, "adminProfiles", uid);
-        const adminDoc = await getDoc(adminRef).catch(() => null);
+        const adminDoc = await getDoc(doc(db, "adminProfiles", uid)).catch(() => null);
         if (adminDoc?.exists()) return { ...adminDoc.data(), role: "admin" };
 
-        const clientRef = doc(db, "clientProfiles", uid);
-        const clientDoc = await getDoc(clientRef).catch(() => null);
+        const clientDoc = await getDoc(doc(db, "clientProfiles", uid)).catch(() => null);
         if (clientDoc?.exists()) return { ...clientDoc.data(), role: "client" };
 
-        const techRef = doc(db, "technicianProfiles", uid);
-        const techDoc = await getDoc(techRef).catch(() => null);
+        const techDoc = await getDoc(doc(db, "technicianProfiles", uid)).catch(() => null);
         if (techDoc?.exists()) return { ...techDoc.data(), role: "technician" };
 
         return null;
@@ -93,9 +87,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         setTimeout(() => setRetryCount((prev) => prev + 1), delay);
       } else {
         setIsLoadingProfile(false);
-        setError(
-          "No pudimos sincronizar tu perfil. Por favor, intenta cerrar sesión y volver a entrar."
-        );
+        setError("No pudimos sincronizar tu perfil. Por favor, intenta cerrar sesión y volver a entrar.");
       }
     };
 
@@ -153,33 +145,29 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   return (
     <ProfileContext.Provider value={{ profile, isLoading: isLoadingProfile }}>
-      <SidebarProvider>
-        <div className="flex flex-col md:flex-row min-h-screen w-full bg-background overflow-hidden">
-          <div className="w-full md:w-auto shrink-0">
-            <DashboardSidebar user={userData as any} />
-          </div>
+      <div className="flex flex-col md:flex-row min-h-screen w-full bg-background">
+        <DashboardSidebar user={userData as any} />
 
-          <SidebarInset className="flex flex-col flex-1 min-w-0 w-full">
-            <header className="h-16 border-b bg-white flex items-center px-4 md:px-6 sticky top-0 z-40 shadow-sm">
-              <h2 className="font-headline font-extrabold text-lg md:text-xl text-primary tracking-tight">
-                ServiLink Pro
-              </h2>
+        <div className="flex flex-col flex-1 min-w-0 w-full">
+          <header className="h-16 border-b bg-white flex items-center px-4 md:px-6 sticky top-0 z-40 shadow-sm">
+            <h2 className="font-headline font-extrabold text-lg md:text-xl text-primary tracking-tight">
+              ServiLink Pro
+            </h2>
 
-              <div className="ml-auto flex items-center">
-                <span className="text-[10px] font-black px-3 py-1 bg-primary/10 text-primary rounded-full uppercase tracking-tighter border border-primary/20">
-                  {profile.role === "admin"
-                    ? "Super Admin ⭐"
-                    : `Panel ${profile.role === "client" ? "Cliente" : "Técnico"}`}
-                </span>
-              </div>
-            </header>
+            <div className="ml-auto flex items-center">
+              <span className="text-[10px] font-black px-3 py-1 bg-primary/10 text-primary rounded-full uppercase tracking-tighter border border-primary/20">
+                {profile.role === "admin"
+                  ? "Super Admin ⭐"
+                  : `Panel ${profile.role === "client" ? "Cliente" : "Técnico"}`}
+              </span>
+            </div>
+          </header>
 
-            <main className="flex-1 w-full p-4 md:p-8 overflow-y-auto bg-slate-50/40">
-              {children}
-            </main>
-          </SidebarInset>
+          <main className="flex-1 w-full p-4 md:p-8 overflow-y-auto bg-slate-50/40">
+            {children}
+          </main>
         </div>
-      </SidebarProvider>
+      </div>
     </ProfileContext.Provider>
   );
 }
