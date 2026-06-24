@@ -1,0 +1,22 @@
+{
+  "placeholderImages": [
+    {
+      "id": "hero-bg",
+      "description": "Professional maintenance service background",
+      "imageUrl": "https://picsum.photos/seed/servilink-hero/1200/600",
+      "imageHint": "maintenance professional"
+    },
+    {
+      "id": "tech-avatar",
+      "description": "Verified technician portrait",
+      "imageUrl": "https://picsum.photos/seed/tech1/200/200",
+      "imageHint": "technician worker"
+    },
+    {
+      "id": "broken-pipe",
+      "description": "Example of maintenance problem",
+      "imageUrl": "https://picsum.photos/seed/pipe/400/300",
+      "imageHint": "leaking pipe"
+    }
+  ]
+}

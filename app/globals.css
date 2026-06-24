@@ -1,0 +1,74 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 207 31% 95%;
+    --foreground: 210 40% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 210 40% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 210 40% 10%;
+    --primary: 210 58% 40%;
+    --primary-foreground: 210 32% 98%;
+    --secondary: 210 20% 90%;
+    --secondary-foreground: 210 58% 25%;
+    --muted: 210 20% 88%;
+    --muted-foreground: 210 20% 40%;
+    --accent: 185 74% 40%;
+    --accent-foreground: 185 74% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 32% 98%;
+    --border: 210 20% 85%;
+    --input: 210 20% 85%;
+    --ring: 210 58% 40%;
+    --chart-1: 210 58% 40%;
+    --chart-2: 185 74% 40%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.75rem;
+    --sidebar-background: 210 58% 15%;
+    --sidebar-foreground: 210 20% 95%;
+    --sidebar-primary: 185 74% 40%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 210 58% 25%;
+    --sidebar-accent-foreground: 210 20% 98%;
+    --sidebar-border: 210 58% 20%;
+    --sidebar-ring: 185 74% 40%;
+  }
+  .dark {
+    --background: 210 40% 5%;
+    --foreground: 210 32% 98%;
+    --card: 210 40% 8%;
+    --card-foreground: 210 32% 98%;
+    --popover: 210 40% 8%;
+    --popover-foreground: 210 32% 98%;
+    --primary: 210 58% 45%;
+    --primary-foreground: 210 32% 98%;
+    --secondary: 210 40% 15%;
+    --secondary-foreground: 210 32% 98%;
+    --muted: 210 40% 15%;
+    --muted-foreground: 210 20% 65%;
+    --accent: 185 74% 45%;
+    --accent-foreground: 185 74% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 32% 98%;
+    --border: 210 40% 15%;
+    --input: 210 40% 15%;
+    --ring: 210 58% 45%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-body;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-headline font-bold;
+  }
+}

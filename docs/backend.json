@@ -1,0 +1,89 @@
+
+{
+  "entities": {
+    "ClientProfile": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "ClientProfile",
+      "type": "object",
+      "description": "Representa un cliente de la plataforma ServiLink.",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "phoneNumber": { "type": "string" },
+        "addressLine1": { "type": "string" },
+        "city": { "type": "string" },
+        "state": { "type": "string" },
+        "zipCode": { "type": "string" },
+        "locationUrl": { "type": "string" },
+        "clientType": { "type": "string" },
+        "averageRating": { "type": "number" },
+        "ratingCount": { "type": "number" },
+        "profileImageUrl": { "type": "string" },
+        "ineImageUrl": { "type": "string" },
+        "verificationStatus": { "type": "string", "enum": ["pending", "active", "verified"] },
+        "isSuspended": { "type": "boolean" },
+        "penaltyReason": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "name", "email", "phoneNumber", "createdAt"]
+    },
+    "TechnicianProfile": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "TechnicianProfile",
+      "type": "object",
+      "description": "Representa un técnico verificado con métricas de desempeño humano.",
+      "properties": {
+        "id": { "type": "string" },
+        "firstName": { "type": "string" },
+        "lastName": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "phoneNumber": { "type": "string" },
+        "verificationStatus": { "type": "string", "enum": ["pending", "approved", "verified"] },
+        "city": { "type": "string" },
+        "averageRating": { "type": "number" },
+        "ratingCount": { "type": "number" },
+        "isSuspended": { "type": "boolean" },
+        "penaltyReason": { "type": "string" },
+        "strikes": { "type": "number" },
+        "bankName": { "type": "string" },
+        "paymentDetails": { "type": "string" },
+        "profileImageUrl": { "type": "string" },
+        "ineImageUrl": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "firstName", "lastName", "email", "phoneNumber", "verificationStatus", "createdAt"]
+    },
+    "ServiceTicket": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "ServiceTicket",
+      "type": "object",
+      "description": "Representa un ticket de servicio con seguimiento y seguridad financiera.",
+      "properties": {
+        "id": { "type": "string" },
+        "clientId": { "type": "string" },
+        "technicianId": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "status": { "type": "string" },
+        "urgency": { "type": "string", "enum": ["low", "medium", "urgent"] },
+        "safetyAlert": { "type": "boolean", "description": "Alerta de riesgo reportada por el admin." },
+        "discrepancyReported": { "type": "boolean" },
+        "adminNotes": { "type": "string" },
+        "totalCost": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "clientId", "title", "status", "createdAt"]
+    }
+  },
+  "auth": {
+    "providers": ["password", "anonymous"]
+  },
+  "firestore": {
+    "clientProfiles": { "schema": { "$ref": "#/entities/ClientProfile" }, "description": "Perfiles de clientes." },
+    "technicianProfiles": { "schema": { "$ref": "#/entities/TechnicianProfile" }, "description": "Perfiles de técnicos." },
+    "adminProfiles": { "schema": { "$ref": "#/entities/AdminProfile" }, "description": "Perfiles de administradores." },
+    "serviceTickets": { "schema": { "$ref": "#/entities/ServiceTicket" }, "description": "Tickets de servicio." }
+  }
+}
